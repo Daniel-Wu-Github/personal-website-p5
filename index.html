@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniel Wu | Personal Website</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Spectral:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-soft: #eef3fa;
+      --text: #122033;
+      --text-muted: #4e6078;
+      --accent: #0f766e;
+      --accent-strong: #115e59;
+      --line: #d8e2ef;
+      --shadow: 0 18px 40px rgba(8, 30, 68, 0.08);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 90% 5%, #d6e7ff 0, #d6e7ff 14%, transparent 32%),
+        radial-gradient(circle at 12% 78%, #d4f1ec 0, #d4f1ec 16%, transparent 30%),
+        linear-gradient(170deg, #f9fbff 0%, var(--bg) 45%, #ecf3fb 100%);
+      line-height: 1.55;
+    }
+
+    a {
+      color: var(--accent-strong);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid #1f8f86;
+      outline-offset: 2px;
+      border-radius: 8px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 14px;
+      top: -120px;
+      background: #0a1222;
+      color: #ffffff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      z-index: 1000;
+      font-weight: 700;
+    }
+
+    .skip-link:focus {
+      top: 12px;
+    }
+
+    .shell {
+      width: min(1080px, 92vw);
+      margin: 36px auto 54px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .hero {
+      background: linear-gradient(145deg, #0d1a2e 0%, #173152 65%, #1e4970 100%);
+      color: #edf4ff;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 34px;
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 28px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      animation: reveal-up 0.65s ease both;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      right: -150px;
+      top: -120px;
+      background: radial-gradient(circle, rgba(143, 198, 255, 0.5) 0%, rgba(143, 198, 255, 0) 66%);
+      z-index: -1;
+    }
+
+    .hero-photo {
+      width: 180px;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      object-fit: cover;
+      object-position: center 20%;
+      border: 3px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+      background: #cfd9eb;
+    }
+
+    .hero-intro h1 {
+      margin: 0;
+      font-family: "Spectral", Georgia, serif;
+      font-size: clamp(2rem, 4.1vw, 3.1rem);
+      line-height: 1.05;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-intro .tagline {
+      margin: 8px 0 0;
+      font-size: clamp(1rem, 2.1vw, 1.2rem);
+      font-weight: 600;
+      color: #c6dbf7;
+    }
+
+    .contact-list {
+      margin: 20px 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      color: #deebff;
+      font-weight: 500;
+    }
+
+    .contact-list li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      padding: 7px 12px;
+      backdrop-filter: blur(2px);
+    }
+
+    .contact-list a {
+      color: #f5fbff;
+      font-weight: 700;
+    }
+
+    .top-nav {
+      position: sticky;
+      top: 12px;
+      z-index: 15;
+      background: rgba(255, 255, 255, 0.9);
+      background: color-mix(in srgb, var(--surface) 86%, transparent);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      padding: 8px;
+      backdrop-filter: blur(8px);
+      animation: reveal-up 0.7s ease both;
+      animation-delay: 0.08s;
+    }
+
+    .top-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .top-nav a {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .top-nav a:hover,
+    .top-nav a:focus-visible {
+      text-decoration: none;
+      background: var(--surface-soft);
+    }
+
+    main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .resume-section {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: clamp(22px, 4vw, 34px);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: reveal-up 0.65s ease forwards;
+    }
+
+    .resume-section:nth-of-type(1) {
+      animation-delay: 0.14s;
+    }
+
+    .resume-section:nth-of-type(2) {
+      animation-delay: 0.22s;
+    }
+
+    .resume-section:nth-of-type(3) {
+      animation-delay: 0.3s;
+    }
+
+    .resume-section:nth-of-type(4) {
+      animation-delay: 0.38s;
+    }
+
+    .resume-section::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 6px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--accent), #1f8f86);
+    }
+
+    .section-heading {
+      margin: 0 0 6px;
+      font-family: "Spectral", Georgia, serif;
+      font-size: clamp(1.5rem, 2.9vw, 2rem);
+      line-height: 1.1;
+      color: #0f1f33;
+    }
+
+    .section-subtitle {
+      margin: 0 0 20px;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    .education-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px 18px;
+      align-items: start;
+    }
+
+    .education-grid h3 {
+      margin: 0;
+      font-size: 1.16rem;
+    }
+
+    .pill {
+      align-self: start;
+      background: #ddf5f0;
+      color: #0b615b;
+      border: 1px solid #bee7e0;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .detail-list {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: #20344d;
+    }
+
+    .skill-columns {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .skill-card {
+      background: var(--surface-soft);
+      border: 1px solid #d5e5f7;
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .skill-card h3 {
+      margin: 0 0 8px;
+      font-size: 0.98rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: #1a355a;
+    }
+
+    .skill-card p {
+      margin: 0;
+      color: #2a4264;
+      font-size: 0.95rem;
+    }
+
+    .timeline {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      background: #fbfdff;
+    }
+
+    .item-header {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .item-header h3 {
+      margin: 0;
+      font-size: 1.07rem;
+      color: #122841;
+    }
+
+    .item-header .date {
+      font-size: 0.9rem;
+      color: #4f6684;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .item-role {
+      margin: 0 0 10px;
+      color: #275b70;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .item-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .item-list li {
+      margin-bottom: 8px;
+      color: #20344d;
+    }
+
+    .project-tech {
+      margin: -2px 0 10px;
+      color: #305173;
+      font-size: 0.93rem;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      color: #526785;
+      font-size: 0.92rem;
+      padding: 10px 0 2px;
+    }
+
+    @keyframes reveal-up {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        justify-items: center;
+      }
+
+      .contact-list {
+        justify-content: center;
+      }
+
+      .education-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pill {
+        justify-self: start;
+      }
+
+      .skill-columns {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(1120px, 95vw);
+        margin-top: 20px;
+      }
+
+      .hero {
+        padding: 22px;
+      }
+
+      .hero-photo {
+        width: 152px;
+      }
+
+      .contact-list {
+        gap: 8px;
+      }
+
+      .contact-list li {
+        width: 100%;
+        justify-content: center;
+        border-radius: 12px;
+      }
+
+      .top-nav {
+        border-radius: 16px;
+      }
+
+      .top-nav ul {
+        justify-content: stretch;
+      }
+
+      .top-nav li,
+      .top-nav a {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .hero,
+      .top-nav,
+      .resume-section {
+        animation: none;
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <div class="shell">
+    <header class="hero">
+      <img class="hero-photo" src="image.jpg" alt="Portrait of Daniel Wu">
+      <div class="hero-intro">
+        <h1>Daniel Wu</h1>
+        <p class="tagline">Computer Science Student focused on full-stack engineering and machine learning systems</p>
+        <ul class="contact-list">
+          <li><a href="tel:3467706093">346-770-6093</a></li>
+          <li><a href="mailto:D.Wu764160@gmail.com">D.Wu764160@gmail.com</a></li>
+          <li>College Station, TX</li>
+          <li><a href="https://github.com/Daniel-Wu-Github" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="https://linkedin.com/in/daniel-wu-5855682b9/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <nav class="top-nav" aria-label="Section navigation">
+      <ul>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+      </ul>
+    </nav>
+
+    <main id="main-content">
+      <section class="resume-section" id="education" aria-labelledby="education-heading">
+        <h2 class="section-heading" id="education-heading">Education</h2>
+        <p class="section-subtitle">Academic background and core coursework</p>
+
+        <div class="education-grid">
+          <h3>Texas A&amp;M University</h3>
+          <span class="pill">Graduating Dec 2026</span>
+          <p>Bachelor of Engineering, Computer Science Major</p>
+          <span class="pill">GPA 3.92</span>
+        </div>
+
+        <ul class="detail-list">
+          <li>Machine Learning: PyTorch, TensorFlow, convolutional neural networks</li>
+          <li>Database Management Systems: SQL, NoSQL, query optimization</li>
+          <li>Computer Systems and Networking: IP packets and decryption concepts</li>
+          <li>Software Engineering: Agile, Waterfall, deployment workflows</li>
+          <li>Data Structures and Algorithms, Linear Algebra</li>
+        </ul>
+      </section>
+
+      <section class="resume-section" id="skills" aria-labelledby="skills-heading">
+        <h2 class="section-heading" id="skills-heading">Skills</h2>
+        <p class="section-subtitle">Technical depth, engineering practices, and spoken languages</p>
+
+        <div class="skill-columns">
+          <article class="skill-card">
+            <h3>Technical</h3>
+            <p>C++, Python (PyTorch, TensorFlow, Pandas, NumPy), Java, Haskell, Ruby on Rails, JavaScript, React, Node.js, iOS Swift, HTML/CSS, Git, Linux.</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Platforms and Data</h3>
+            <p>AWS, cloud computing, Docker, Kubernetes, SQL, NoSQL, MongoDB, CI/CD pipelines, RESTful API development.</p>
+          </article>
+
+          <article class="skill-card">
+            <h3>Methodologies and Languages</h3>
+            <p>Agile Development, Scrum, Waterfall, collaborative version control, and native fluency in English, Mandarin, and Cantonese.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="resume-section" id="experience" aria-labelledby="experience-heading">
+        <h2 class="section-heading" id="experience-heading">Experience</h2>
+        <p class="section-subtitle">Professional roles with measurable operational impact</p>
+
+        <ul class="timeline">
+          <li class="timeline-item">
+            <div class="item-header">
+              <h3>Global Merchant Processing Inc. | Houston, TX</h3>
+              <span class="date">May 2025 - Jan 2026</span>
+            </div>
+            <p class="item-role">Software and Processing Engineer Intern</p>
+            <ul class="item-list">
+              <li>Engineered and optimized point-of-sale software based on client requests, contributing to a 30% improvement in workflow efficiency.</li>
+              <li>Developed internal database management systems for organizing customer records and inventory data.</li>
+            </ul>
+          </li>
+
+          <li class="timeline-item">
+            <div class="item-header">
+              <h3>Jang Guem Tofu and BBQ, LLC | Houston, TX</h3>
+              <span class="date">May 2024 - Aug 2024</span>
+            </div>
+            <p class="item-role">Restaurant Server and Manager</p>
+            <ul class="item-list">
+              <li>Led teams of five servers per shift while maintaining consistent service quality and operational efficiency.</li>
+              <li>Communicated directly with 60 to 70 customers per shift to resolve requests quickly and maintain full satisfaction.</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <section class="resume-section" id="projects" aria-labelledby="projects-heading">
+        <h2 class="section-heading" id="projects-heading">Projects</h2>
+        <p class="section-subtitle">Selected engineering projects across machine learning and full-stack development</p>
+
+        <ul class="timeline">
+          <li class="timeline-item">
+            <div class="item-header">
+              <h3>NBA Analytics and Prediction Engine</h3>
+              <span class="date">2026 (In Progress)</span>
+            </div>
+            <p class="project-tech">Python, PyTorch, TensorFlow, Angular</p>
+            <ul class="item-list">
+              <li>Developing a machine learning prediction engine to forecast NBA game outcomes from historical player data.</li>
+              <li>Engineering an Angular frontend that visualizes court heatmaps, shot efficiency zones, and player movement patterns.</li>
+              <li>Implementing a full-stack data pipeline that ingests raw statistics collected through API-driven scraping.</li>
+            </ul>
+          </li>
+
+          <li class="timeline-item">
+            <div class="item-header">
+              <h3>Boba Store Self-Service Kiosk</h3>
+              <span class="date">2025</span>
+            </div>
+            <p class="project-tech">React, Node.js, PostgreSQL, OAuth</p>
+            <ul class="item-list">
+              <li>Collaborated in an Agile team to build and deploy a full-stack retail kiosk hosted on Vercel.</li>
+              <li>Designed a robust PostgreSQL schema for dynamic inventory, sales reporting, and user authentication.</li>
+              <li>Built a dual-interface system with an accessible customer UI and a secure manager dashboard for real-time inventory and trend tracking.</li>
+            </ul>
+          </li>
+
+          <li class="timeline-item">
+            <div class="item-header">
+              <h3>Online Bookstore Full-Stack App</h3>
+              <span class="date">2025</span>
+            </div>
+            <p class="project-tech">Java, Spring Boot, React, Spring Security</p>
+            <ul class="item-list">
+              <li>Architected an enterprise-grade backend with Spring Boot and Spring Data JPA for inventory, authentication, and order processing.</li>
+              <li>Built a responsive React frontend that consumes RESTful APIs for catalog browsing, shopping cart management, and user registration.</li>
+              <li>Implemented secure password hashing and role-based access controls using Spring Security to protect user data and admin endpoints.</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      Built as a standalone one-page profile aligned to Daniel Wu's 2025 resume.
+    </footer>
+  </div>
+</body>
+</html>
